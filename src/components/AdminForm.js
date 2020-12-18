@@ -3,6 +3,7 @@ import React from 'react'
 const AdminForm = ({
     id: key, 
     majRecette,
+    supprimerRecette, 
     recettes
 }) => {
 
@@ -23,7 +24,7 @@ const AdminForm = ({
                 <input value={recette.ingredients} onChange={e => handleChange(e, key)} name="ingredients" rows="3" placeholder="Liste des ingrédients" />
                 <input value={recette.instructions} onChange={e => handleChange(e, key)} name="instructions" rows="15" placeholder="Liste des instructions" />
             </form>
-            <button>Supprimer</button>
+            <button onClick={() => supprimerRecette(key)}>Supprimer</button>
         </div>
     )
 }
