@@ -36,8 +36,16 @@ class Admin extends Component {
             .then(this.handleAuth)
     }
 
+    logout = async() => {
+        console.log("Déconnexion")
+        await firebase.auth().signOut()
+        this.setState({ uid: null })
+    }
+
     render () {
         const { recettes, ajouterRecette, majRecette, chargerExemple, supprimerRecette } = this.props
+
+        const logout = <button onClick={this.logout}>Déconnexion</button>
 
         // Si l'utilisateur n'est pas connecté
         if(!this.state.uid) {
@@ -48,6 +56,7 @@ class Admin extends Component {
             return (
                 <div>
                     <p>Tu n'est pas le chef de cette boîte !</p>
+                    {logout}
                 </div>
             )
         }
@@ -66,6 +75,7 @@ class Admin extends Component {
                             />)
                 }
                 <footer>
+                    {logout}
                     <button onClick={chargerExemple}>Remplir</button>
                 </footer>
             </div>
