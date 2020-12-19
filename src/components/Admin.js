@@ -13,8 +13,19 @@ class Admin extends Component {
         chef: null
     }
 
-    handleAuth = authData => {
-        console.log(authData)
+    handleAuth = async authData => {
+        const box = await base.fetch(this.props.pseudo, { context: this })
+
+        if (!box.chef) {
+            await base.post(`${this.props.pseudo}/chef`, {
+                data: authData.user.uid
+            })
+        }
+
+        this.setState({
+            uid: authData.user.uid,
+            chef: box.chef || authData.user.uid
+        })
     } 
 
     authenticate = () => {
@@ -31,6 +42,14 @@ class Admin extends Component {
         // Si l'utilisateur n'est pas connecté
         if(!this.state.uid) {
             return <Login authenticate={this.authenticate} />
+        }
+
+        if (this.state.uid !== this.state.chef) {
+            return (
+                <div>
+                    <p>Tu n'est pas le chef de cette boîte !</p>
+                </div>
+            )
         }
 
         return (
